@@ -23,7 +23,7 @@ csort(unsigned const k,
   double const ts = omp_get_wtime();
   #pragma omp parallel for
   for (unsigned i = 0; i < n; i++) {
-    //#pragma omp atomic
+    #pragma omp atomic
     count[in[i]]++;
   }
 
@@ -38,10 +38,11 @@ csort(unsigned const k,
   //put in final array (i.e. 0,1,1,4,3 -> count[0] = 0 -> out[0] = 0 ... in[3] = 4, count[4] = 4, out[4] = 4)
   #pragma omp parallel for
   for (unsigned i = 0; i < n; i++) {
-    //#pragma omp critical
+    #pragma omp critical
+    {
     out[count[in[i]]] = in[i];
-    //#pragma omp atomic
     count[in[i]]++;
+    }
   }
   double const te = omp_get_wtime();
   printf("elapsed time %lf\n",te-ts);
@@ -57,7 +58,7 @@ main(int argc, char *argv[]) {
   unsigned n = strtol(argv[1], NULL, 10);
 
   /* Get key size from command line */
-  unsigned k = strtol(argv[1], NULL, 10);
+  unsigned k = strtol(argv[2], NULL, 10);
 
   /* Allocate memory */
   unsigned * const a = malloc(n * sizeof(*a));
