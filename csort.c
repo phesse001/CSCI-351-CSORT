@@ -42,7 +42,7 @@ csort(unsigned const k,
   //double te1 = omp_get_wtime();
   //printf("timer 1: %lf\n", te1 - ts1);
   printf("count after first loop:\n[");
-  for (unsigned i = 0; i < num_threads*k +20; i++) {
+  for (unsigned i = 0; i < num_threads*k +1; i++) {
     printf("%u,",count[i]);
   }
   printf("]\n");
@@ -58,7 +58,7 @@ csort(unsigned const k,
   //printf("timer 2: %lf\n", te2 - ts2);
 
   printf("count after second loop:\n[");
-  for (unsigned i = 0; i < num_threads*k +20; i++) {
+  for (unsigned i = 0; i < num_threads*k +1; i++) {
     printf("%u,",count[i]);
   }
   printf("]\n");
