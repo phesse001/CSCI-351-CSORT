@@ -16,9 +16,10 @@ csort(unsigned const k,
       unsigned const * const in,
       unsigned       * const out)
 {
+  omp_set_dynamic(0);     // Explicitly disable dynamic teams
+  omp_set_num_threads(1); // Use 4 threads for all consecutive parallel regions
   int num_threads;
-
-# pragma omp parallel
+  # pragma omp parallel
   num_threads = omp_get_num_threads();
 
   unsigned * const count = calloc(num_threads * k + 1, sizeof(*count));
