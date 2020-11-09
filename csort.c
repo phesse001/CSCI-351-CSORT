@@ -18,7 +18,7 @@ csort(unsigned const k,
 {
   double ts = omp_get_wtime();
   omp_set_dynamic(0);     // Explicitly disable dynamic teams
-  omp_set_num_threads(2); // Use 4 threads for all consecutive parallel regions
+  omp_set_num_threads(1); // Use 4 threads for all consecutive parallel regions
   int num_threads;
   # pragma omp parallel
   num_threads = omp_get_num_threads();
@@ -28,11 +28,13 @@ csort(unsigned const k,
   if (NULL == count) {
     return -1;
   }
+  /*
   printf("original count array:\n[");
   for (unsigned i = 0; i < n; i++) {
     printf("%u,",in[i]);
   }
   printf("]\n");
+  */
 
   //double ts1 = omp_get_wtime();
   # pragma omp parallel for
@@ -41,11 +43,13 @@ csort(unsigned const k,
   }
   //double te1 = omp_get_wtime();
   //printf("timer 1: %lf\n", te1 - ts1);
+  /*
   printf("count after first loop:\n[");
   for (unsigned i = 0; i < num_threads*k +1; i++) {
     printf("%u,",count[i]);
   }
   printf("]\n");
+  */
 
   //double ts2 = omp_get_wtime();
   unsigned total = 0;
@@ -56,13 +60,13 @@ csort(unsigned const k,
   }
   //double te2 = omp_get_wtime();
   //printf("timer 2: %lf\n", te2 - ts2);
-
+  /*
   printf("count after second loop:\n[");
   for (unsigned i = 0; i < num_threads*k +1; i++) {
     printf("%u,",count[i]);
   }
   printf("]\n");
-
+  */
   //double ts3 = omp_get_wtime();
   # pragma omp parallel for
   for (unsigned i = 0; i < n; i++) {
@@ -71,13 +75,13 @@ csort(unsigned const k,
   }
   //double te3 = omp_get_wtime();
   //printf("timer 3: %lf\n", te3 - ts3);
-
+  /*
   printf("count after final loop:\n[");
   for (unsigned i = 0; i <n; i++) {
     printf("%u,",out[i]);
   }
   printf("]\n");
-
+  */
   free(count);
   double te = omp_get_wtime();
   printf("timer: %lf\n",te-ts);
